@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dynamic QTextEdit and Animated Button</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>40</y>
+      <width>271</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="clickButton">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>200</y>
+      <width>85</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Click Me!</string>
+    </property>
+   </widget>
+  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTextEdit" name="textEdit" />
+   </item>
+   <item>
+    <widget class="QPushButton" name="clickButton" />
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
