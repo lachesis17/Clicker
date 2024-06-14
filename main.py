@@ -1,7 +1,12 @@
 import sys
 from PyQt5 import QtWidgets, QtCore, QtGui, uic
-import pyautogui, time, random
+import pyautogui, time, ctypes
 from rich.console import Console
+
+ctypes.windll.shcore.SetProcessDpiAwareness(1)
+appid = 'Clicker'
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
+QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -18,59 +23,83 @@ class MainWindow(QtWidgets.QMainWindow):
         self.worker = ThreadHandler()
         self.clicking_thread = Clicker()
         self.worker.func = self.clicking_thread.click_me
-        self.worker.finished.connect(lambda: print("Thread finished"))
-        self.clicking_thread.update_text.connect(self.update_display)
+        self.clicking_thread.update_text.connect(lambda x: self.update_display(x))
+
+        self.opacity_effect = QtWidgets.QGraphicsOpacityEffect(self.click_button)
+        self.click_button.setGraphicsEffect(self.opacity_effect)
+
+        self.animation = QtCore.QPropertyAnimation(self.opacity_effect, b"opacity")
+        self.animation.setDuration(200)
+        self.animation.setStartValue(0.6)
+        self.animation.setEndValue(1.0)
+        self.animation.setEasingCurve(QtCore.QEasingCurve.Linear)
+
+        # Connect hover events
+        self.click_button.installEventFilter(self)
+
+    def eventFilter(self, object, event):
+        if object == self.click_button:
+            if event.type() == QtCore.QEvent.Enter:
+                # Fade out on hover
+                self.animation.setDirection(QtCore.QPropertyAnimation.Forward)
+                self.animation.start()
+            elif event.type() == QtCore.QEvent.Leave:
+                # Fade in on hover leave
+                self.animation.setDirection(QtCore.QPropertyAnimation.Backward)
+                self.animation.start()
+        return super().eventFilter(object, event)
 
     def handle_click(self):
         if self.click_button.isChecked():
-            self.clicking_thread._clicking = True
-            print("Starting thread...")
+            self.clicking_thread.keep_running = True
             if not self.worker.isRunning():
                 self.worker.start()
-            self.click_button.setText("Stop Clicking")
         else:
-            self.clicking_thread._clicking = False
-            print("Stopping thread...")
+            self.clicking_thread.keep_running = False
             self.worker.quit()
-            self.click_button.setText("Start Clicking")
-            self.update_display(["Stopped"])
+            self.update_display(["❌"])
 
     def update_display(self, values):
         self.text_edit.clear()
         colors = ['red', 'green', 'blue', 'purple', 'orange', 'cyan', 'magenta', 'lime', 'pink', 'brown']
+        color_index = self.clicking_thread.counter 
+
         for value in values:
-            color = random.choice(colors)
+            color = colors[color_index % len(colors)]
             self.text_edit.setTextColor(QtGui.QColor(color))
             self.text_edit.setFontWeight(QtGui.QFont.Bold)
             self.text_edit.setAlignment(QtCore.Qt.AlignCenter)
             self.text_edit.append(str(value))
+            color_index += 1
 
 class Clicker(QtWidgets.QWidget):
     update_text = QtCore.pyqtSignal(list)
-    _clicking = False
+
+    def __init__(self):
+        super().__init__()
+        self.keep_running = False
 
     def click_me(self):
         console = Console()
-        history = ["oh yeah..."]
-        console.log("Clicking process started")
-        x = 0
-        times = 8000
+        self.counter = 0
+        history = ["🐭"]
         self.update_text.emit(history)
-        
-        while x < times:
+        colors = ['red', 'green', 'blue', 'purple', 'orange', 'cyan', 'magenta', 'lime', 'pink']
+
+        while self.keep_running:
+            time.sleep(2)
             pyautogui.click()
-            time.sleep(3)
-            x += 1
-            history.append(x)
-            self.update_text.emit(history[-7:])
-            color = random.choice(['red', 'green', 'blue', 'purple', 'orange', 'cyan', 'magenta', 'lime', 'pink'])
-            console.print(f'[{color}]{x}[/{color}]')
-        self._clicking = False  # Ensure flag is reset when stopping
-        print("Clicking ended...")
+            self.counter += 1
+            history.append(self.counter)
+            color = colors[self.counter % len(colors)]
+            console.print(f'[{color}]{self.counter}[/{color}]')
+            if self.keep_running:
+                self.update_text.emit(history[-10:])
+        self.update_text.emit(["🌈"])
 
 class ThreadHandler(QtCore.QThread):
     def __init__(self):
-        super(ThreadHandler, self).__init__()
+        super().__init__()
         self.func = None
 
     def run(self):

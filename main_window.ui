@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>351</height>
+    <width>250</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,15 +15,39 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QTextEdit" name="text_edit">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>1</horstretch>
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -44,6 +68,9 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QPushButton" name="click_button">
         <property name="sizePolicy">
@@ -53,8 +80,7 @@
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton:hover { background-color: yellow }
-QPushButton:pressed { background-color: red; }</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
@@ -63,10 +89,10 @@ QPushButton:pressed { background-color: red; }</string>
          <bool>true</bool>
         </property>
         <property name="autoRepeatDelay">
-         <number>500</number>
+         <number>1500</number>
         </property>
         <property name="autoRepeatInterval">
-         <number>500</number>
+         <number>1500</number>
         </property>
        </widget>
       </item>
@@ -79,8 +105,8 @@ QPushButton:pressed { background-color: red; }</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>362</width>
-     <height>26</height>
+     <width>250</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
