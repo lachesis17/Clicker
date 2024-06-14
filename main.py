@@ -19,6 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.click_button.setIcon(QtGui.QIcon('mouse.svg'))
         self.click_button.setCheckable(True)
         self.click_button.clicked.connect(self.handle_click)
+        self.click_button.installEventFilter(self)
 
         self.worker = ThreadHandler()
         self.clicking_thread = Clicker()
@@ -34,17 +35,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.animation.setEndValue(1.0)
         self.animation.setEasingCurve(QtCore.QEasingCurve.Linear)
 
-        # Connect hover events
-        self.click_button.installEventFilter(self)
 
     def eventFilter(self, object, event):
         if object == self.click_button:
             if event.type() == QtCore.QEvent.Enter:
-                # Fade out on hover
                 self.animation.setDirection(QtCore.QPropertyAnimation.Forward)
                 self.animation.start()
             elif event.type() == QtCore.QEvent.Leave:
-                # Fade in on hover leave
                 self.animation.setDirection(QtCore.QPropertyAnimation.Backward)
                 self.animation.start()
         return super().eventFilter(object, event)
