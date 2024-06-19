@@ -11,12 +11,12 @@ QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi("main_window.ui", self)
+        uic.loadUi("assets/main_window.ui", self)
         self.setWindowTitle("Clicker")
-        self.setWindowIcon(QtGui.QIcon('mouse.svg'))
+        self.setWindowIcon(QtGui.QIcon('assets/mouse.svg'))
         self.setWindowFlags(QtCore.Qt.WindowType.WindowStaysOnTopHint)
 
-        self.click_button.setIcon(QtGui.QIcon('mouse.svg'))
+        self.click_button.setIcon(QtGui.QIcon('assets/mouse.svg'))
         self.click_button.setCheckable(True)
         self.click_button.clicked.connect(self.handle_click)
         self.click_button.installEventFilter(self)
