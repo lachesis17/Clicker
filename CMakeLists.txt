@@ -13,14 +13,14 @@ set(SOURCE_DIR "${CMAKE_SOURCE_DIR}")
 #pacman -S mingw-w64-x86_64-gcc
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_PREFIX_PATH "C:/Qt/")
-include_directories("${CMAKE_PREFIX_PATH}/include")
-link_directories("${CMAKE_PREFIX_PATH}/lib")
+# include_directories("${CMAKE_PREFIX_PATH}/include")
+# link_directories("${CMAKE_PREFIX_PATH}/lib")
+set(CMAKE_PREFIX_PATH "C:/Qt/STATIC/qtbase-6.5.3/build/lib/cmake")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++") # to bundle mingw .dll
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static") # to bundle windows .dll
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++") # to bundle MinGW .dll
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static") # to bundle Windows .dll
 
-find_package(Qt5 COMPONENTS Widgets Core Gui REQUIRED)
+find_package(Qt6 COMPONENTS Widgets Core Gui REQUIRED)
 
 add_executable(ClickerC++
    src/mainwindow.cpp
@@ -31,12 +31,13 @@ add_executable(ClickerC++
    assets/main_window.ui
    assets/resources.qrc
    assets/resources.rc
+   assets/mouse.svg
    ${SOURCES})
 
 target_link_libraries(ClickerC++
-   PRIVATE Qt5::Widgets
-   PRIVATE Qt5::Core
-   PRIVATE Qt5::Gui
+   PRIVATE Qt6::Widgets
+   PRIVATE Qt6::Core
+   PRIVATE Qt6::Gui
 )
 
 # Post-build copy for media files

@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setWindowIcon(QIcon("mouse.ico")); 
     setWindowTitle("Clicker");
-    ui->click_button->setIcon(QIcon("mouse.svg"));
+    ui->click_button->setIcon(QIcon(":/mouse.png"));
     connect(ui->click_button, &QPushButton::released, this, &MainWindow::handleClick);
 
     worker->setFunction([this]() {
